@@ -1,0 +1,64 @@
+SYNOPSIS
+    mapping parse_time()
+    mapping parse_time(int time_value)
+    mapping parse_time(string time_value)
+    mapping parse_time(string time_value, string format)
+
+DESCRIPTION
+    Parses date information from time_value into a mapping, using the given format.
+    If no time_value argument is given, the current ctime() is used.
+    If time_value is an integer, it is converted to a string with 'ctime()'.
+    If no format argument is given, a format matching 'ctime()' is used.
+    The format is a special regular expression, using the custom date tokens given below.
+    Brackets must not be used in the format, and tokens may not be used more than once
+    (since parse_time() uses bracketed expressions to match up the parsed values).
+    The parsed values are normalised and checked for consistancy with date rules.
+    If the pattern is not matched, or the time is inconsistant, the function returns 0.
+
+    Date tokens:
+
+        YEAR    Matches a 2 or 4 digit date (2 digit dates are normalised).
+        MONTH   Matches a 3 letter month name or number (1-12).
+        DATE    Matches the date of the month (1-31 or month length).
+        WEEKDAY Matches a 3 letter name of the day of the week.
+        HOUR    Matches the hour in 24 or 12 hour clock (12 hour if AMPM is present).
+        AMPM    Matches the AM or PM 12 hour marker (and implies HOUR is 12 hour).
+        MINUTE  Matches the minute (00-59).
+        SECOND  Matches the seconds (00-59).
+        ZONE    Matches the time zone (normalised to a float), difference from UTC.
+
+    If ZONE is not present, it is automatically defined to match the muds native timezone.
+
+    To convert a parse_time() mapping into a time() value, use mktime(SE).
+
+EXAMPLE
+    These examples assume that the mud is set to GMT (Greenwich Mean Time, UTC).
+
+    This example gives the current time, in bits;
+        parse_time()
+
+    These examples are equivalent, and demonstrate the 'ctime()' format;
+        parse_time(ctime(1234567890))
+        parse_time(ctime(1234567890), "WEEKDAY MONTH DATE HOUR:MINUTE:SECOND YEAR")
+    returns:
+        ([
+           "DATE": 13,
+           "HOUR": 23,
+           "MINUTE": 31,
+           "MONTH": 2,
+           "SECOND": 30,
+           "WEEKDAY": 5,
+           "YEAR": 2009,
+           "ZONE": 0,
+        ])
+
+    This example will fail - since 13/Feb/2009 is a Friday, not a Monday;
+        parse_time("Mon Feb 13 23:31:30 2009", "WEEKDAY DATE/MONTH/YEAR")
+    returns
+        0
+
+SEE ALSO
+    ctime(E), gmtime(E), localtime(E), mktime(SE), query_zone_offset(SE), time(E), user_time(SE), utime(E)
+
+HISTORY:
+    Created as a side thought, but seemed good and useful not to be a simul efun, Bubbs, June/2004.

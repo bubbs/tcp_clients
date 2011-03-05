@@ -1,0 +1,26 @@
+SYNOPSIS
+    int mktime(mapping values)
+    int mktime(int *values)
+
+DESCRIPTION
+    Construct an integer time value that measures the number of seconds since
+    00:00:00 01/Jan/1970 UTC from specified date values.
+
+    The values argument must either be an integer array, like that returned by
+    gmtime(E), or a mapping, like that returned by parse_time(SE).
+
+    The returned integer is comparable with values given by time(E) and ltime(SE) functions.
+
+EXAMPLE
+    The following code should print '0's.
+        write(( mktime(parse_time()) -time() ) +"\n");
+        write(( mktime(gmtime()) -time() ) +"\n");
+        write(( mktime(parse_time()) -mktime(gmtime()) ) +"\n");
+
+SEE ALSO
+    ctime(E), gmtime(E), localtime(E), parse_time(SE), query_zone_offset(SE), time(E), user_time(SE), utime(E)
+
+HISTORY:
+    Created as a side thought, but seemed good and useful not to be a simul efun, Bubbs, June/2004.
+    mktime(int *) support added 02/Feb/2008.
+

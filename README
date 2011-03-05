@@ -1,0 +1,43 @@
+This directory contains a number of socket/internet protocol client projects.
+Unfortunately, these have not yet been tested successfully on anything but LDMud 3.2.
+
+
+tcp_socket.c
+  - Single object TCP socket implementation.
+  - Integrates with mudlib for socket support.
+
+
+httpclient.c
+httpclient.h
+httpclient.txt
+hctest.c
+  - HTTP client 
+
+
+source_types.c
+source_types.ini
+  - Source types processing and data for source type deduction.
+
+
+tcp_gopher.c
+tcp_gopher.h
+  - Mostly complete gopher client.
+
+
+tcp_smtp.c
+tcp_smtp.h
+  - SMTP outgoing email client.
+
+
+tcp_telnet.c
+  - Partially complete telnet client.
+
+
+parse_time.c
+mktime.h
+parse_time.txt
+  - Supplies and documents two utility methods;
+  * parse_time() - create a time() compliant integer.
+  * mktime()     - parse a time string into a mapping.
+
+
